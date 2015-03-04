@@ -147,7 +147,8 @@ The resource is expected to have at least the following attributes:
       pixelHeight: int?,
       …
    }?
-}```
+}
+```
 
 Here, the `location` is a valid URL according to [IETF RFC #1738] and the `mimeType` is one of the supported content types described in [IETF RFC #822].
 
