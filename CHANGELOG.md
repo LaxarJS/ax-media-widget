@@ -2,6 +2,7 @@
 
 ## Last Changes
 
+- [#2](https://github.com/LaxarJS/ax-media-widget/2): Specification: Changed default locales for messages
 - [#1](https://github.com/LaxarJS/ax-media-widget/1): Documentation: Fixed unterminated code-block
 
 

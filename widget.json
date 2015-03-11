@@ -70,8 +70,8 @@
             ],
             "description": "Text to display on the fallback-link.",
             "default": {
-              "en_US": "Please click here to display the document!",
-              "de_DE": "Bitte klicken, um das Dokument anzuzeigen!"
+              "en": "Please click here to display the document!",
+              "de": "Bitte klicken, um das Dokument anzuzeigen!"
             }
           }
         }
