@@ -108,7 +108,7 @@ The embedded website is able to read the value through the DOM attribute `window
 
 Example:
 The presentation of a PDF in an embedded frame is at some systems not satisfactorily possible.
-In iOS for example the scrolling may not work.
+In any touch interfaces the scrolling may not work.
 
 *R4.2* The detection if a fallback presentation is necessary SHOULD be feature based.
 The widget MAY execute a platform detection (with `navigator.platform`) to identify platform specific problems.
