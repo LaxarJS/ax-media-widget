@@ -7,7 +7,7 @@ The widget gets the information about the type and source of the content from a 
 * [Appearance](#appearance)
 * [Usage](#usage)
 * [Features](#features)
-* [Integration](#Integration)
+* [Integration](#integration)
 * [References](#references)
 
 
@@ -128,11 +128,10 @@ The widget supports the following event patterns as specified by the [LaxarJS Pa
 
 #### Resources
 * Resource: medium.resource
-* Role: Slave
-* Access: Read
-* Description: The resource with content to display.
+   * Role: Slave
+   * Access: Read
+   * Description: The resource with content to display.
 
-Information about the resource content:
 
 The resource is expected to have at least the following attributes:
 
