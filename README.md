@@ -127,7 +127,7 @@ When displaying internationalized content, the widget MUST use the current langu
 The widget supports the following event patterns as specified by the [LaxarJS Patterns] document.
 
 #### Resources
-* Resource: medium.resource
+* Resource: `medium.resource`
    * Role: Slave
    * Access: Read
    * Description: The resource with content to display.
@@ -158,9 +158,9 @@ If the size of the content cannot be calculated automatically the `mediaInformat
 For compatibility with non-internationalized widgets, `name` and `description` are supported instead of `i18nName` and `i18nDescription`.
 
 #### Actions
-* Action: medium.onActions
-* Role: Receiver
-* Description: Causes the widget to display the media content.
+* Action: `medium.onActions`
+   * Role: Receiver
+   * Description: Causes the widget to display the media content.
 
 
 ## References
