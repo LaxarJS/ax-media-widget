@@ -78,10 +78,10 @@ define( [
          } );
       }
 
+      $scope.resources = {};
       $scope.model = {
          mediaType: null,
          showTitle: false,
-         medium: null,
          showCaption: false,
          isSameOrigin: false,
          layoutClass: CLASS_SIZE_TO_CONTAINER,
@@ -99,7 +99,7 @@ define( [
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function updateLocalization() {
-         var medium = $scope.model.medium;
+         var medium = $scope.resources.medium;
          if( !medium || !showMedia ) {
             return;
          }
@@ -114,7 +114,7 @@ define( [
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function updateModel() {
-         var medium = $scope.model.medium;
+         var medium = $scope.resources.medium;
          if( !medium || !showMedia ) {
             return;
          }
@@ -134,7 +134,7 @@ define( [
          var sizeToContentRequested = $scope.features.layout && $scope.features.layout.sizeToContent;
          var isImage = model.mediaType === TYPE_IMAGE;
          var isPdf = medium.mimeType === 'application/pdf';
-         var sameOrigin = isSameOrigin( model.medium.location );
+         var sameOrigin = isSameOrigin( medium.location );
          var hasExplicitSize = medium.mediaInformation &&
                                medium.mediaInformation.pixelHeight !== null &&
                                medium.mediaInformation.pixelWidth !== null;
@@ -174,8 +174,8 @@ define( [
          model.isSameOrigin = sameOrigin;
 
          // We trust every kind of urls from the resource
-         if( typeof model.medium.location === 'string' ) {
-            model.medium.location = $sce.trustAsResourceUrl( model.medium.location );
+         if( typeof medium.location === 'string' ) {
+            medium.location = $sce.trustAsResourceUrl( medium.location );
          }
       }
 
