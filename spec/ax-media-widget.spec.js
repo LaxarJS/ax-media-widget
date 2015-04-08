@@ -68,17 +68,17 @@ define( [
 
             setup( { medium: { resource: resourceId } } );
             replace( resourceId, image1 );
-            expect( testBed.scope.model.medium.location.toString() ).toEqual( image1.location );
+            expect( testBed.scope.resources.medium.location.toString() ).toEqual( image1.location );
             expect( testBed.scope.model.mediaType ).toEqual( 'image' );
 
             update( resourceId, [ { op:'replace', path: '/location', value: website2.location } ] );
             update( resourceId, [ { op:'replace', path: '/mimeType', value: website2.mimeType } ] );
-            expect( testBed.scope.model.medium.location.toString() ).toEqual( website2.location );
+            expect( testBed.scope.resources.medium.location.toString() ).toEqual( website2.location );
             expect( testBed.scope.model.mediaType ).toEqual( 'website' );
 
             update( resourceId, [ { op:'replace', path: '/location', value: website1.location } ] );
-            expect( testBed.scope.model.medium.location.toString() ).toEqual( website1.location );
-            expect( testBed.scope.model.medium.mimeType ).toEqual( website2.mimeType );
+            expect( testBed.scope.resources.medium.location.toString() ).toEqual( website1.location );
+            expect( testBed.scope.resources.medium.mimeType ).toEqual( website2.mimeType );
          } );
 
          /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,17 +89,17 @@ define( [
 
             setup( { medium: { resource: resourceId } } );
             replace( resourceId, image1 );
-            expect( testBed.scope.model.medium.location.toString() ).toEqual( image1.location );
+            expect( testBed.scope.resources.medium.location.toString() ).toEqual( image1.location );
             update( resourceId, [
                { op: 'replace', path: '/mimeType', value: website1.mimeType },
                { op: 'replace', path: '/location', value: website1.location }
             ] );
-            expect( testBed.scope.model.medium.location.toString() ).toEqual( website1.location );
+            expect( testBed.scope.resources.medium.location.toString() ).toEqual( website1.location );
             update( resourceId, [
                { op: 'replace', path: '/mimeType', value: image2.mimeType },
                { op: 'replace', path: '/location', value: image2.location }
             ] );
-            expect( testBed.scope.model.medium.location.toString() ).toEqual( image2.location );
+            expect( testBed.scope.resources.medium.location.toString() ).toEqual( image2.location );
          } );
 
          /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -204,7 +204,7 @@ define( [
          it( 'does not use any fixed size (R2.1)', function() {
             setup( { medium: { resource: 'theMedia', showCaption: false } } );
             replace( resourceId, website2 );
-            expect( testBed.scope.model.medium.mediaInformation ).toBeUndefined();
+            expect( testBed.scope.resources.medium.mediaInformation ).toBeUndefined();
          } );
 
       } );
@@ -224,8 +224,8 @@ define( [
                layout: { sizeToContent: true }
             } );
             replace( resourceId, website3 );
-            expect( testBed.scope.model.medium.mediaInformation.pixelWidth ).toEqual( 42 );
-            expect( testBed.scope.model.medium.mediaInformation.pixelHeight ).toEqual( 815 );
+            expect( testBed.scope.resources.medium.mediaInformation.pixelWidth ).toEqual( 42 );
+            expect( testBed.scope.resources.medium.mediaInformation.pixelHeight ).toEqual( 815 );
          } );
 
       } );
@@ -294,20 +294,20 @@ define( [
                integration: { name: 'myFrameName' }
             } );
             replace( resourceId, ax.object.deepClone( website3 ) );
-            expect( testBed.scope.model.medium.name ).toEqual( website3.i18nName.en_US );
-            expect( testBed.scope.model.medium.description ).toEqual( website3.i18nDescription.en_US );
+            expect( testBed.scope.resources.medium.name ).toEqual( website3.i18nName.en_US );
+            expect( testBed.scope.resources.medium.description ).toEqual( website3.i18nDescription.en_US );
 
             testBed.eventBusMock.publish( 'didChangeLocale.default', {
                locale: 'default',
                languageTag: 'en_US'
             } );
             jasmine.Clock.tick( 0 );
-            expect( testBed.scope.model.medium.name ).toEqual( website3.i18nName.en_US );
-            expect( testBed.scope.model.medium.description ).toEqual( website3.i18nDescription.en_US );
+            expect( testBed.scope.resources.medium.name ).toEqual( website3.i18nName.en_US );
+            expect( testBed.scope.resources.medium.description ).toEqual( website3.i18nDescription.en_US );
 
             replace( resourceId, ax.object.deepClone( image3 ) );
-            expect( testBed.scope.model.medium.name ).toEqual( image3.name );
-            expect( testBed.scope.model.medium.description ).toEqual( image3.description );
+            expect( testBed.scope.resources.medium.name ).toEqual( image3.name );
+            expect( testBed.scope.resources.medium.description ).toEqual( image3.description );
          } );
 
       } );

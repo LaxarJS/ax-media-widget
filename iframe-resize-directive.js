@@ -61,7 +61,7 @@ define( [
                var iframe = $element[0];
 
                if( scope.model.layoutClass === 'ax-local-size-to-content' ) {
-                  scope.$watch( 'model.medium', updateDisplayStyle, true );
+                  scope.$watch( 'resources.medium', updateDisplayStyle, true );
                }
 
                ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +94,7 @@ define( [
                      }
                   }
 
-                  var information = scope.model.medium.mediaInformation;
+                  var information = scope.resources.medium.mediaInformation;
                   var mediaSizeAvailable = information && information.pixelWidth && information.pixelHeight;
 
                   if( mediaSizeAvailable ) {
