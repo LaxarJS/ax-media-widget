@@ -6,7 +6,7 @@
 define( [
    'angular',
    'laxar',
-   'laxar_patterns',
+   'laxar-patterns',
    './iframe-resize-directive',
    './iframe-integration-directive'
 ], function( ng, ax, patterns, iframeResizeDirective, iframeIntegrationDirective ) {
