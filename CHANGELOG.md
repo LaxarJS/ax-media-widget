@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v2.0.1
+
 - [#8](https://github.com/LaxarJS/ax-media-widget/issues/8): Fixed missing hint for last changelog
 
 
