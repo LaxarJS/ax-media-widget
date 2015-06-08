@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v2.0.0
+
 - [#7](https://github.com/LaxarJS/ax-media-widget/issues/7): Updated LaxarJS dependencies and updated contribution information
 
 
