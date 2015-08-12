@@ -1,4 +1,4 @@
-# AxMediaWidget
+# AxMediaWidget [![Build Status](https://travis-ci.org/LaxarJS/ax-media-widget.svg?branch=master)](https://travis-ci.org/LaxarJS/ax-media-widget)
 The AxMediaWidget displays media content such as an image or an external website with an optional title or an optional caption.
 The widget gets the information about the type and source of the content from a resource.
 
