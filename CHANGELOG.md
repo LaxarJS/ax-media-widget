@@ -2,6 +2,8 @@
 
 ## Last Changes
 
+- [#10](https://github.com/LaxarJS/ax-media-widget/issues/10): Added a `.travis.yml` for open continuous integration
+
 
 ## v2.0.1
 
