@@ -2,6 +2,7 @@
 
 ## Last Changes
 
+- [#9](https://github.com/LaxarJS/ax-media-widget/issues/9): Support AMD references (and installation through bower)
 - [#10](https://github.com/LaxarJS/ax-media-widget/issues/10): Added a `.travis.yml` for open continuous integration
 - [#8](https://github.com/LaxarJS/ax-media-widget/issues/8): Fixed missing hint for last changelog
 

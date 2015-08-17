@@ -1,5 +1,5 @@
 {
-   "name": "AxMediaWidget",
+   "name": "ax-media-widget",
    "description": "Displays an image or an external website.",
 
    "integration": {

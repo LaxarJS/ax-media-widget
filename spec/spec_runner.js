@@ -6,7 +6,7 @@
 ( function( global ) {
    'use strict';
    global.laxarSpec = {
-      title: 'AxMediaWidget Specification',
+      title: 'ax-media-widget Specification',
       tests: [
          'ax-media-widget.spec'
       ],
