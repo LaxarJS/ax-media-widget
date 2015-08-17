@@ -9,7 +9,7 @@ define( [
    'laxar/laxar_testing',
    'angular-mocks',
    'jquery',
-   'text!laxar-path-widgets/laxarjs/ax-media-widget/default.theme/ax-media-widget.html'
+   'text!../default.theme/ax-media-widget.html'
 ], function( descriptor, controller, ax, ngMocks, $, widgetMarkup ) {
    'use strict';
 
