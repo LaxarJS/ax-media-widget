@@ -1,5 +1,5 @@
-# AxMediaWidget [![Build Status](https://travis-ci.org/LaxarJS/ax-media-widget.svg?branch=master)](https://travis-ci.org/LaxarJS/ax-media-widget)
-The AxMediaWidget displays media content such as an image or an external website with an optional title or an optional caption.
+# ax-media-widget [![Build Status](https://travis-ci.org/LaxarJS/ax-media-widget.svg?branch=master)](https://travis-ci.org/LaxarJS/ax-media-widget)
+The ax-media-widget displays media content such as an image or an external website with an optional title or an optional caption.
 The widget gets the information about the type and source of the content from a resource.
 
 
@@ -12,14 +12,14 @@ The widget gets the information about the type and source of the content from a 
 
 
 ## Appearance
-![The AxMediaWidget](docs/img/example_1.png)
+![The ax-media-widget displaying an external website.](docs/img/example_1.png)
 
-The AxMediaWidget displaying an external website.
+The ax-media-widget displaying an external website.
 
 
-![The AxMediaWidget](docs/img/example_2.png)
+![The ax-media-widget displaying an image.](docs/img/example_2.png)
 
-The AxMediaWidget displaying an image.
+The ax-media-widget displaying an image.
 
 
 ## Usage
@@ -40,7 +40,7 @@ For installation instruction take a look at the [LaxarJS documentation](https://
 }
 ```
 
-Use this configuration on a page to get an AxMediaWidget instance.
+Use this configuration on a page to get an ax-media-widget instance.
 The widget displays the content configured through the resource `exampleContent`.
 
 For full configuration options refer to the [widget.json](widget.json).
@@ -54,27 +54,27 @@ Please note: The container which embeds the widget must have the CSS style `posi
 
 *R1.2* Type and source of the content are received through a *document resource*.
 The expected structure of the document resource are described in section [integration](#integration).
-The AxMediaWidget MUST act as a slave of the resource according to the master/slave pattern.
+The ax-media-widget MUST act as a slave of the resource according to the master/slave pattern.
 
 *R1.3* The source of the content to be displayed is defined in the resource by a URL.
 
 *R1.4* The type of the media content MUST comply with the MIME type according to [IETF RFC #822] which is defined in the resource.
-The AxMediaWidget MUST support the following types and MAY support further types.
+The ax-media-widget MUST support the following types and MAY support further types.
 
 For Images: image/png, image/jpeg and image/gif.
 
 For Websites: text/html and application/xhtml+xml plus application/pdf.
 
-*R1.5* The AxMediaWidget MUST support the option to display a title received with the media resource as headline.
-Independently of this option the AxMediaWidget MAY display a received title as an image tooltip.
+*R1.5* The ax-media-widget MUST support the option to display a title received with the media resource as headline.
+Independently of this option the ax-media-widget MAY display a received title as an image tooltip.
 
-*R1.6* The AxMediaWidget MUST support the option to display an image caption received with the media resource.
+*R1.6* The ax-media-widget MUST support the option to display an image caption received with the media resource.
 
-*R1.7* The AxMediaWidget MUST allow to configure an action to trigger display of the media content.
+*R1.7* The ax-media-widget MUST allow to configure an action to trigger display of the media content.
 
 
 ### 2. Adjust the Size to the Media Content (layout)
-*R2.1* The AxMediaWidget MUST use the available width to determine the width of the media content *(size-to-container)*.
+*R2.1* The ax-media-widget MUST use the available width to determine the width of the media content *(size-to-container)*.
 
 *R2.2* The widget MUST determine the height according to the width and the aspect ratio of the image (default behavior of the browser).
 
@@ -99,7 +99,7 @@ In this case the widget MUST NOT overflow the given width.
 *R2.7* If in case of the size-to-content layout a surveying of the embedded site is not possible and the media resource doesn't include the attribute `mediaInformation`, the widget MUST log a warning message and change to the layout size-to-container.
 
 ### 3. Integration with Embedded Website (integration)
-*R3.1* If the AxMediaWidget is used to embed a website using an `iframe`, it MUST allow the HTML attribute `name` of the `iframe` element with a configuration parameter.
+*R3.1* If the ax-media-widget is used to embed a website using an `iframe`, it MUST allow the HTML attribute `name` of the `iframe` element with a configuration parameter.
 This enables the embedded website to recognize its integration into a LaxarJS application.
 The embedded website is able to read the value through the DOM attribute `window.name` and display a special layout, for example one without navigation.
 

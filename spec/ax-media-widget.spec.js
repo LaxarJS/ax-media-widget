@@ -4,15 +4,16 @@
  * http://laxarjs.org/license
  */
 define( [
+   'json!../widget.json',
    '../ax-media-widget',
    'laxar/laxar_testing',
    'angular-mocks',
    'jquery',
    'text!laxar-path-widgets/laxarjs/ax-media-widget/default.theme/ax-media-widget.html'
-], function( controller, ax, ngMocks, $, widgetMarkup ) {
+], function( descriptor, controller, ax, ngMocks, $, widgetMarkup ) {
    'use strict';
 
-   describe( 'An AxMediaWidget ', function() {
+   describe( 'An ax-media-widget ', function() {
 
       var testBed;
       var $widget;
@@ -332,7 +333,7 @@ define( [
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function setup( features ) {
-         testBed = ax.testing.portalMocksAngular.createControllerTestBed( 'laxarjs/ax-media-widget' );
+         testBed = ax.testing.portalMocksAngular.createControllerTestBed( descriptor );
          testBed.featuresMock = features;
          testBed.useWidgetJson();
          testBed.setup();
