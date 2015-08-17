@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v2.1.1
+
 - [#11](https://github.com/LaxarJS/ax-media-widget/issues/11): Fixed AMD import of template in spec
 
 
