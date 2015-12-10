@@ -2,6 +2,7 @@
 
 ## Last Changes
 
+- [#12](https://github.com/LaxarJS/ax-media-widget/issues/12): Expanded the widget definition
 - [#11](https://github.com/LaxarJS/ax-media-widget/issues/11): Fixed AMD import of template in spec
 
 

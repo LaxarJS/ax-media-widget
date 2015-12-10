@@ -26,6 +26,8 @@
             "properties": {
                "resource": {
                   "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet",
                   "description": "A resource topic under which a document resource can be obtained."
                },
                "showTitle": {
@@ -46,6 +48,8 @@
                   "description": "List of actions, any of which triggers loading media content. If omitted, content is loaded immediately. Using a string is DEPRECATED. An array should be used.",
                   "items": {
                      "type": "string",
+                     "format": "topic",
+                     "axRole": "inlet",
                      "description": "An action that triggers loading media content."
                   }
                }
@@ -103,6 +107,8 @@
             "properties": {
                "locale": {
                   "type": "string",
+                  "format": "topic",
+                  "axRole": "inlet",
                   "description": "The topic under which to expect the locale for this widget.",
                   "default": "default"
                }
