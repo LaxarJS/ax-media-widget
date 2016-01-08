@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+- [#13](https://github.com/LaxarJS/ax-media-widget/issues/13): Use laxar-mocks instead of laxar-testing now
+
+
 ## v2.2.0
 
 - [#12](https://github.com/LaxarJS/ax-media-widget/issues/12): Expanded the widget definition
