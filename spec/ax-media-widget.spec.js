@@ -5,19 +5,19 @@
  */
 define( [
    'json!../widget.json',
-   '../ax-media-widget',
-   'laxar/laxar_testing',
+   'laxar-mocks',
+   'laxar',
    'angular-mocks',
-   'jquery',
-   'text!../default.theme/ax-media-widget.html'
-], function( descriptor, controller, ax, ngMocks, $, widgetMarkup ) {
+   'jquery'
+], function( descriptor, axMocks, ax, ngMocks, $ ) {
    'use strict';
 
    describe( 'An ax-media-widget ', function() {
 
-      var testBed;
-      var $widget;
-      var resourceId = 'theMedia';
+      var widgetEventBus;
+      var widgetScope;
+      var testEventBus;
+      var widgetDom;
 
       var image1 = { mimeType: 'image/png', location: 'http://www.example.com/image1.png' };
       var image2 = { mimeType: 'image/jpeg', location: 'http://www.example.com/image2.jpg' };
@@ -46,166 +46,220 @@ define( [
       };
       var website4 = { mimeType: 'application/pdf', location: 'http://www.example.com/file.pdf' };
 
-      describe( 'with configured media feature', function() {
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-         it( 'displays media content in a suitable HTML element (R1.1)', function() {
-            setup( { medium: { resource: resourceId } } );
-            ngMocks.inject( function( $compile ) {
-               $( '#container' ).remove();
-               $widget = $( '<div id="container"></div>' ).html( widgetMarkup );
-               $compile( $widget )( testBed.scope );
-               $widget.appendTo( 'body' );
+      function createSetup( widgetConfiguration ) {
+
+         beforeEach( axMocks.createSetupForWidget( descriptor, {
+            knownMissingResources: [ 'ax-i18n-control.css' ]
+         } ) );
+
+         beforeEach( function() {
+            axMocks.widget.configure( widgetConfiguration );
+         } );
+
+         beforeEach( axMocks.widget.load );
+
+         beforeEach( function() {
+            widgetDom = axMocks.widget.render();
+
+            widgetScope = axMocks.widget.$scope;
+            widgetEventBus = axMocks.widget.axEventBus;
+            testEventBus = axMocks.eventBus;
+            axMocks.triggerStartupEvents( {
+               didChangeLocale: {
+                  default: {
+                     locale: 'default',
+                     languageTag: 'en_US'
+                  }
+               }
             } );
-            replace( resourceId, websiteBlank );
-            expect( $( 'iframe' ) ).toBeDefined();
          } );
+      }
 
-         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-         it( 'acts as resource slave in Master/Slave pattern (R1.2)', function() {
-            // we call toString on the location, because it is always wrapped in a
-            // sceTrustedValueWrapper
-
-            setup( { medium: { resource: resourceId } } );
-            replace( resourceId, image1 );
-            expect( testBed.scope.resources.medium.location.toString() ).toEqual( image1.location );
-            expect( testBed.scope.model.mediaType ).toEqual( 'image' );
-
-            update( resourceId, [ { op:'replace', path: '/location', value: website2.location } ] );
-            update( resourceId, [ { op:'replace', path: '/mimeType', value: website2.mimeType } ] );
-            expect( testBed.scope.resources.medium.location.toString() ).toEqual( website2.location );
-            expect( testBed.scope.model.mediaType ).toEqual( 'website' );
-
-            update( resourceId, [ { op:'replace', path: '/location', value: website1.location } ] );
-            expect( testBed.scope.resources.medium.location.toString() ).toEqual( website1.location );
-            expect( testBed.scope.resources.medium.mimeType ).toEqual( website2.mimeType );
-         } );
-
-         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-         it( 'loads from the configured media location (R1.3)', function() {
-            // we call toString on the location, because it is always wrapped in a
-            // sceTrustedValueWrapper
-
-            setup( { medium: { resource: resourceId } } );
-            replace( resourceId, image1 );
-            expect( testBed.scope.resources.medium.location.toString() ).toEqual( image1.location );
-            update( resourceId, [
-               { op: 'replace', path: '/mimeType', value: website1.mimeType },
-               { op: 'replace', path: '/location', value: website1.location }
-            ] );
-            expect( testBed.scope.resources.medium.location.toString() ).toEqual( website1.location );
-            update( resourceId, [
-               { op: 'replace', path: '/mimeType', value: image2.mimeType },
-               { op: 'replace', path: '/location', value: image2.location }
-            ] );
-            expect( testBed.scope.resources.medium.location.toString() ).toEqual( image2.location );
-         } );
-
-         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-         it( 'interprets the media type correctly (R1.4)', function() {
-            setup( { medium: { resource: 'theMedia' } } );
-            replace( resourceId, image1 );
-            expect( testBed.scope.model.mediaType ).toEqual( 'image' );
-            update( resourceId, [ { op:'replace', path: '/mimeType', value: 'image/jpeg' } ] );
-            expect( testBed.scope.model.mediaType ).toEqual( 'image' );
-            update( resourceId, [ { op:'replace', path: '/mimeType', value: 'image/gif' } ] );
-            expect( testBed.scope.model.mediaType ).toEqual( 'image' );
-
-            replace( resourceId, website1 );
-            expect( testBed.scope.model.mediaType ).toEqual( 'website' );
-            replace( resourceId, website2 );
-            expect( testBed.scope.model.mediaType ).toEqual( 'website' );
-         } );
-
-         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-         it( 'shows a title if desired and possible (R1.5)', function() {
-            setup( { medium: { resource: 'theMedia', showTitle: true } } );
-            replace( resourceId, image3 );
-            expect( testBed.scope.model.showTitle ).toEqual( true );
-            replace( resourceId, image1 );
-            expect( testBed.scope.model.showTitle ).toEqual( false );
-         } );
-
-         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-         it( 'shows no title if not desired (R1.5)', function() {
-            setup( { medium: { resource: 'theMedia', showTitle: false } } );
-            replace( resourceId, image3 );
-            expect( testBed.scope.model.showTitle ).toEqual( false );
-            replace( resourceId, image1 );
-            expect( testBed.scope.model.showTitle ).toEqual( false );
-         } );
-
-         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-         it( 'shows a caption if desired and possible (R1.6)', function() {
-            setup( { medium: { resource: 'theMedia', showCaption: true } } );
-            replace( resourceId, image3 );
-            expect( testBed.scope.model.showCaption ).toEqual( true );
-            replace( resourceId, image1 );
-            expect( testBed.scope.model.showCaption ).toEqual( false );
-         } );
-
-         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-         it( 'shows no caption if not desired (R1.6)', function() {
-            setup( { medium: { resource: 'theMedia', showCaption: false } } );
-            replace( resourceId, image3 );
-            expect( testBed.scope.model.showCaption ).toEqual( false );
-            replace( resourceId, image1 );
-            expect( testBed.scope.model.showCaption ).toEqual( false );
-         } );
-
-         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-         it( 'waits for any of the configured actions (R1.7)', function() {
-            setup( { medium: { resource: resourceId, showTitle: true, onActions: [ 'showMedia' ] } } );
-            replace( resourceId, image4 );
-            expect( testBed.scope.model.mediaType ).toEqual( null );
-            expect( testBed.scope.model.showTitle ).toEqual( false );
-            testBed.eventBusMock.publish( 'takeActionRequest.showMedia', {
-               action: 'showMedia'
-            } );
-            jasmine.Clock.tick( 0 );
-            expect( testBed.scope.model.mediaType ).toEqual( 'image' );
-            expect( testBed.scope.model.showTitle ).toEqual( true );
-         } );
-
-         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-         it( 'allows to configure individual onActions as string (for backwards compatibility)(R1.7)', function() {
-            setup( { medium: { resource: resourceId, showTitle: true, onActions: 'showMedia' } } );
-            replace( resourceId, image4 );
-            expect( testBed.scope.model.mediaType ).toEqual( null );
-            expect( testBed.scope.model.showTitle ).toEqual( false );
-            testBed.eventBusMock.publish( 'takeActionRequest.showMedia', {
-               action: 'showMedia'
-            } );
-            jasmine.Clock.tick( 0 );
-            expect( testBed.scope.model.mediaType ).toEqual( 'image' );
-            expect( testBed.scope.model.showTitle ).toEqual( true );
-         } );
-
-         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-      } );
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       afterEach( function() {
-         testBed.tearDown();
+         axMocks.tearDown();
       } );
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      describe( 'with configured media feature', function() {
+
+         describe( 'and configured resource', function() {
+
+            createSetup( { medium: { resource: 'theMedia' } } );
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+
+            it( 'displays media content in a suitable HTML element (R1.1)', function() {
+               testEventBus.publish( 'didReplace.theMedia', { resource: 'theMedia', data: websiteBlank } );
+               testEventBus.flush();
+               expect( $( 'iframe' ) ).toBeDefined();
+            } );
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+
+            it( 'acts as resource slave in Master/Slave pattern (R1.2)', function() {
+               // we call toString on the location, because it is always wrapped in a
+               // sceTrustedValueWrapper
+
+               replace( 'theMedia', image1 );
+               expect( widgetScope.resources.medium.location.toString() ).toEqual( image1.location );
+               expect( widgetScope.model.mediaType ).toEqual( 'image' );
+
+               update( 'theMedia', [ { op:'replace', path: '/location', value: website2.location } ] );
+               update( 'theMedia', [ { op:'replace', path: '/mimeType', value: website2.mimeType } ] );
+               expect( widgetScope.resources.medium.location.toString() ).toEqual( website2.location );
+               expect( widgetScope.model.mediaType ).toEqual( 'website' );
+
+               update( 'theMedia', [ { op:'replace', path: '/location', value: website1.location } ] );
+               expect( widgetScope.resources.medium.location.toString() ).toEqual( website1.location );
+               expect( widgetScope.resources.medium.mimeType ).toEqual( website2.mimeType );
+            } );
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+
+            it( 'loads from the configured media location (R1.3)', function() {
+               // we call toString on the location, because it is always wrapped in a
+               // sceTrustedValueWrapper
+
+               replace( 'theMedia', image1 );
+               expect( widgetScope.resources.medium.location.toString() ).toEqual( image1.location );
+               update( 'theMedia', [
+                  { op: 'replace', path: '/mimeType', value: website1.mimeType },
+                  { op: 'replace', path: '/location', value: website1.location }
+               ] );
+               expect( widgetScope.resources.medium.location.toString() ).toEqual( website1.location );
+               update( 'theMedia', [
+                  { op: 'replace', path: '/mimeType', value: image2.mimeType },
+                  { op: 'replace', path: '/location', value: image2.location }
+               ] );
+               expect( widgetScope.resources.medium.location.toString() ).toEqual( image2.location );
+            } );
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+
+            it( 'interprets the media type correctly (R1.4)', function() {
+               replace( 'theMedia', image1 );
+               expect( widgetScope.model.mediaType ).toEqual( 'image' );
+               update( 'theMedia', [ { op: 'replace', path: '/mimeType', value: 'image/jpeg' } ] );
+               expect( widgetScope.model.mediaType ).toEqual( 'image' );
+               update( 'theMedia', [ { op: 'replace', path: '/mimeType', value: 'image/gif' } ] );
+               expect( widgetScope.model.mediaType ).toEqual( 'image' );
+
+               replace( 'theMedia', website1 );
+               expect( widgetScope.model.mediaType ).toEqual( 'website' );
+               replace( 'theMedia', website2 );
+               expect( widgetScope.model.mediaType ).toEqual( 'website' );
+            } );
+
+         } );
+
+         /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+         describe( 'and configured resource and showTitle is true', function() {
+
+            createSetup( { medium: { resource: 'theMedia', showTitle: true } } );
+
+            it( 'shows a title if desired and possible (R1.5)', function() {
+               replace( 'theMedia', image3 );
+               expect( widgetScope.model.showTitle ).toEqual( true );
+               replace( 'theMedia', image1 );
+               expect( widgetScope.model.showTitle ).toEqual( false );
+            } );
+
+         } );
+
+         /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+         describe( 'and configured resource and showTitle is false', function() {
+
+            createSetup( { medium: { resource: 'theMedia', showTitle: false } } );
+
+            it( 'shows no title if not desired (R1.5)', function() {
+               replace( 'theMedia', image3 );
+               expect( widgetScope.model.showTitle ).toEqual( false );
+               replace( 'theMedia', image1 );
+               expect( widgetScope.model.showTitle ).toEqual( false );
+            } );
+
+         } );
+
+
+         /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+         describe( 'and configured resource and showCaption is true', function() {
+
+            createSetup( { medium: { resource: 'theMedia', showCaption: true } } );
+
+            it( 'shows a caption if desired and possible (R1.6)', function() {
+               replace( 'theMedia', image3 );
+               expect( widgetScope.model.showCaption ).toEqual( true );
+               replace( 'theMedia', image1 );
+               expect( widgetScope.model.showCaption ).toEqual( false );
+            } );
+         } );
+
+         /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+         describe( 'and configured resource and showCaption is false', function() {
+
+            createSetup( { medium: { resource: 'theMedia', showCaption: false } } );
+
+            it( 'shows no caption if not desired (R1.6)', function() {
+               replace( 'theMedia', image3 );
+               expect( widgetScope.model.showCaption ).toEqual( false );
+               replace( 'theMedia', image1 );
+               expect( widgetScope.model.showCaption ).toEqual( false );
+            } );
+         } );
+
+         /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+         describe( 'and configured resource and configured actions', function() {
+
+            createSetup( { medium: { resource: 'theMedia', showTitle: true, onActions: [ 'showMedia' ] } } );
+
+            it( 'waits for any of the configured actions (R1.7)', function() {
+               replace( 'theMedia', image4 );
+               expect( widgetScope.model.mediaType ).toEqual( null );
+               expect( widgetScope.model.showTitle ).toEqual( false );
+               testEventBus.publish( 'takeActionRequest.showMedia', {
+                  action: 'showMedia'
+               } );
+               testEventBus.flush();
+               expect( widgetScope.model.mediaType ).toEqual( 'image' );
+               expect( widgetScope.model.showTitle ).toEqual( true );
+            } );
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+
+            it( 'allows to configure individual onActions as string (for backwards compatibility)(R1.7)', function() {
+               replace( 'theMedia', image4 );
+               expect( widgetScope.model.mediaType ).toEqual( null );
+               expect( widgetScope.model.showTitle ).toEqual( false );
+               testEventBus.publish( 'takeActionRequest.showMedia', {
+                  action: 'showMedia'
+               } );
+               testEventBus.flush();
+               expect( widgetScope.model.mediaType ).toEqual( 'image' );
+               expect( widgetScope.model.showTitle ).toEqual( true );
+            } );
+         } );
+      } );
+
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       describe( 'with a configured feature layout: size-to-container', function() {
 
+         createSetup( { medium: { resource: 'theMedia', showCaption: false } } );
+
          it( 'does not use any fixed size (R2.1)', function() {
-            setup( { medium: { resource: 'theMedia', showCaption: false } } );
-            replace( resourceId, website2 );
-            expect( testBed.scope.resources.medium.mediaInformation ).toBeUndefined();
+            replace( 'theMedia', website2 );
+            expect( widgetScope.resources.medium.mediaInformation ).toBeUndefined();
          } );
 
       } );
@@ -219,14 +273,15 @@ define( [
 
       describe( 'with a configured feature layout: size-to-content', function() {
 
+         createSetup( {
+            medium: { resource: 'theMedia', showCaption: false },
+            layout: { sizeToContent: true }
+         } );
+
          it( 'respects the required content size (R2.4)', function() {
-            setup( {
-               medium: { resource: 'theMedia', showCaption: false },
-               layout: { sizeToContent: true }
-            } );
-            replace( resourceId, website3 );
-            expect( testBed.scope.resources.medium.mediaInformation.pixelWidth ).toEqual( 42 );
-            expect( testBed.scope.resources.medium.mediaInformation.pixelHeight ).toEqual( 815 );
+            replace( 'theMedia', website3 );
+            expect( widgetScope.resources.medium.mediaInformation.pixelWidth ).toEqual( 42 );
+            expect( widgetScope.resources.medium.mediaInformation.pixelHeight ).toEqual( 815 );
          } );
 
       } );
@@ -239,15 +294,17 @@ define( [
 
       describe( 'with a configured feature layout \'size-to-content\' and the surveying of the embedded site is not possible and the resource doesn\'t include mediaInformation', function() {
 
-         it( 'logs a warning and changes to layout size-to-container (R2.7)', function() {
+         createSetup( {
+            medium: { resource: 'theMedia', showCaption: false },
+            layout: { sizeToContent: true }
+         } );
+         beforeEach( function() {
             spyOn( ax.log, 'warn' );
-            setup( {
-               medium: { resource: 'theMedia', showCaption: false },
-               layout: { sizeToContent: true }
-            } );
-            replace( resourceId, website4 );
+         } );
 
-            jasmine.Clock.tick( 0 );
+         it( 'logs a warning and changes to layout size-to-container (R2.7)', function() {
+            replace( 'theMedia', website4 );
+            testEventBus.flush();
             expect( ax.log.warn ).toHaveBeenCalled();
          } );
       } );
@@ -256,13 +313,14 @@ define( [
 
       describe( 'with a configured feature integration', function() {
 
+         createSetup( {
+            medium: { resource: 'theMedia', showCaption: false },
+            integration: { name: 'myFrameName' }
+         } );
+
          it( 'sets the requested window name (R3.1)', function() {
-            setup( {
-               medium: { resource: 'theMedia', showCaption: false },
-               integration: { name: 'myFrameName' }
-            } );
-            replace( resourceId, website3 );
-            expect( testBed.scope.model.integration.name ).toEqual( 'myFrameName' );
+            replace( 'theMedia', website3 );
+            expect( widgetScope.model.integration.name ).toEqual( 'myFrameName' );
          } );
 
       } );
@@ -270,17 +328,17 @@ define( [
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       describe( 'with a configured feature fallback', function() {
+         var linkText = 'link to media';
+
+         createSetup( {
+            medium: { resource: 'theMedia', showCaption: false },
+            fallback: { i18nHtmlText: linkText }
+         } );
 
          it( 'displays a link to the media content with the configured text (R4.1, R4.2, R4.3)', function() {
-            var linkText = 'link to media';
-            setup( {
-               medium: { resource: 'theMedia', showCaption: false },
-               fallback: { i18nHtmlText: linkText }
-            } );
-            replace( resourceId, ax.object.deepClone( website1 ) );
-
-            expect( testBed.scope.model.fallback ).toBeDefined();
-            expect( testBed.scope.model.fallback.i18nHtmlText ).toEqual( linkText );
+            replace( 'theMedia', ax.object.deepClone( website1 ) );
+            expect( widgetScope.model.fallback ).toBeDefined();
+            expect( widgetScope.model.fallback.i18nHtmlText ).toEqual( linkText );
          } );
 
       } );
@@ -289,26 +347,27 @@ define( [
 
       describe( 'with a configured feature i18n', function() {
 
-         it( 'keeps up with changes to its configured locale (R5.1)', function() {
-            setup( {
-               medium: { resource: 'theMedia', showCaption: false },
-               integration: { name: 'myFrameName' }
-            } );
-            replace( resourceId, ax.object.deepClone( website3 ) );
-            expect( testBed.scope.resources.medium.name ).toEqual( website3.i18nName.en_US );
-            expect( testBed.scope.resources.medium.description ).toEqual( website3.i18nDescription.en_US );
+         createSetup( {
+            medium: { resource: 'theMedia', showCaption: false },
+            integration: { name: 'myFrameName' }
+         } );
 
-            testBed.eventBusMock.publish( 'didChangeLocale.default', {
+         it( 'keeps up with changes to its configured locale (R5.1)', function() {
+            replace( 'theMedia', ax.object.deepClone( website3 ) );
+            expect( widgetScope.resources.medium.name ).toEqual( website3.i18nName.en_US );
+            expect( widgetScope.resources.medium.description ).toEqual( website3.i18nDescription.en_US );
+
+            testEventBus.publish( 'didChangeLocale.default', {
                locale: 'default',
                languageTag: 'en_US'
             } );
-            jasmine.Clock.tick( 0 );
-            expect( testBed.scope.resources.medium.name ).toEqual( website3.i18nName.en_US );
-            expect( testBed.scope.resources.medium.description ).toEqual( website3.i18nDescription.en_US );
+            testEventBus.flush();
+            expect( widgetScope.resources.medium.name ).toEqual( website3.i18nName.en_US );
+            expect( widgetScope.resources.medium.description ).toEqual( website3.i18nDescription.en_US );
 
-            replace( resourceId, ax.object.deepClone( image3 ) );
-            expect( testBed.scope.resources.medium.name ).toEqual( image3.name );
-            expect( testBed.scope.resources.medium.description ).toEqual( image3.description );
+            replace( 'theMedia', ax.object.deepClone( image3 ) );
+            expect( widgetScope.resources.medium.name ).toEqual( image3.name );
+            expect( widgetScope.resources.medium.description ).toEqual( image3.description );
          } );
 
       } );
@@ -316,32 +375,18 @@ define( [
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function replace( resourceId, medium ) {
-         testBed.eventBusMock.publish( 'didReplace.' + resourceId, { resource: 'theMedia', data: medium } );
-         jasmine.Clock.tick( 0 );
+         testEventBus.publish( 'didReplace.' + resourceId, { resource: resourceId, data: medium } );
+         testEventBus.flush();
       }
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function update( resourceId, patches ) {
-         testBed.eventBusMock.publish( 'didUpdate.' + resourceId, {
+         testEventBus.publish( 'didUpdate.' + resourceId, {
             resource: resourceId,
             patches: patches
          } );
-         jasmine.Clock.tick( 0 );
-      }
-
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-      function setup( features ) {
-         testBed = ax.testing.portalMocksAngular.createControllerTestBed( descriptor );
-         testBed.featuresMock = features;
-         testBed.useWidgetJson();
-         testBed.setup();
-         testBed.eventBusMock.publish( 'didChangeLocale.default', {
-            locale: 'default',
-            languageTag: 'en_US'
-         } );
-         jasmine.Clock.tick( 0 );
+         testEventBus.flush();
       }
 
    } );
