@@ -1,17 +1,11 @@
 {
-   "name": "ax-media-widget",
+   "name": "laxar-media-widget",
    "description": "Displays an image or an external website.",
 
    "integration": {
       "technology": "angular",
       "type": "widget"
    },
-
-   "controls": [
-      "laxar-uikit/controls/i18n"
-   ],
-
-   "compatibility": [ "json-patch" ],
 
    "features": {
       "$schema": "http://json-schema.org/draft-04/schema#",
@@ -41,11 +35,8 @@
                   "default": false
                },
                "onActions": {
-                  "type": [
-                     "string",
-                     "array"
-                  ],
-                  "description": "List of actions, any of which triggers loading media content. If omitted, content is loaded immediately. Using a string is DEPRECATED. An array should be used.",
+                  "type": "array",
+                  "description": "List of actions, any of which triggers loading media content. If omitted, content is loaded immediately.",
                   "items": {
                      "type": "string",
                      "format": "topic",
@@ -93,7 +84,7 @@
             "description": "Allow to integrate with embedded websites (applicable to website mime-types only).",
             "properties": {
                "name": {
-                  "type": "string",
+                  "type": [ "string", "null" ],
                   "description": "The window.name that is visible to any embedded website.",
                   "default": null
                }
