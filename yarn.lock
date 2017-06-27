@@ -1560,13 +1560,13 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-config-laxarjs@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-laxarjs/-/eslint-config-laxarjs-0.3.0.tgz#322dc060ade649f740062b6d5e69c523bb3b6e55"
-
 eslint-config-laxarjs@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/eslint-config-laxarjs/-/eslint-config-laxarjs-0.4.0.tgz#d15d4a44378dc18b6293107178e14dbf15e08d74"
+
+eslint-config-laxarjs@^2.0.0-rc.0:
+  version "2.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-laxarjs/-/eslint-config-laxarjs-2.0.0-rc.0.tgz#bef8972f85dac0ead520fe4bded7993dfe654a06"
 
 eslint@^3.0.1, eslint@^3.17.1:
   version "3.17.1"
@@ -2643,18 +2643,16 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-laxar-angular-adapter@^2.0.0:
-  version "2.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/laxar-angular-adapter/-/laxar-angular-adapter-2.0.0-alpha.1.tgz#de4a9e609f7f5d589f5dd5e92b91fcd386ea06ed"
-  dependencies:
-    page "^1.7.1"
+laxar-angular-adapter@2.0.0-rc.1:
+  version "2.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/laxar-angular-adapter/-/laxar-angular-adapter-2.0.0-rc.1.tgz#4274802eb0a354dc58195af3f54336395a678216"
 
-laxar-infrastructure@^0.1.0-alpha.4:
-  version "0.1.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/laxar-infrastructure/-/laxar-infrastructure-0.1.0-alpha.5.tgz#7d90404c9e56db4dc70b5b49eae74723f3db65c7"
+laxar-infrastructure@2.0.0-rc.1:
+  version "2.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/laxar-infrastructure/-/laxar-infrastructure-2.0.0-rc.1.tgz#b5e80857fd1cd7e3a4b05f63493573de53c4b073"
   dependencies:
     eslint "^3.0.1"
-    eslint-config-laxarjs "^0.3.0"
+    eslint-config-laxarjs "^2.0.0-rc.0"
     jasmine-core "^2.5.2"
     karma "^1.5.0"
     karma-chrome-launcher "^2.0.0"
@@ -2686,12 +2684,12 @@ laxar-mocks@^2.0.0-beta.2:
     laxar "^2.0.0-alpha.16"
     laxar-tooling "^0.5.0"
 
-laxar-patterns@^2.0.0:
-  version "2.0.0-beta.0"
-  resolved "https://registry.yarnpkg.com/laxar-patterns/-/laxar-patterns-2.0.0-beta.0.tgz#f483b05b72a53be1b3a184187d8c017d53b14661"
+laxar-patterns@2.0.0-rc.2:
+  version "2.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/laxar-patterns/-/laxar-patterns-2.0.0-rc.2.tgz#14fd19330f2092be5fa552ab5599e8584fbf38a7"
   dependencies:
     fast-json-patch "~0.5.2"
-    laxar "^2.0.0-alpha.14"
+    laxar "^2.0.0-rc.2"
 
 laxar-tooling@^0.5.0:
   version "0.5.0"
@@ -2709,15 +2707,22 @@ laxar-tooling@^0.6.0-alpha.0:
     jsonlint "^1.6.2"
     source-map-support "^0.4.2"
 
-laxar-uikit@^2.0.0:
-  version "2.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/laxar-uikit/-/laxar-uikit-2.0.0-alpha.5.tgz#c5824f7fe8a7b6b3c696ba84fa061fe88100db39"
+laxar-uikit@2.0.0-rc.1:
+  version "2.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/laxar-uikit/-/laxar-uikit-2.0.0-rc.1.tgz#0f6e5104d0c2ad79378685fb95310d9695071292"
   dependencies:
     bootstrap-sass "~3.3.7"
     font-awesome "~4.7.0"
     moment "^2.17.1"
+    pkg-dir "^1.0.0"
 
-laxar@^2.0.0, laxar@^2.0.0-alpha.14, laxar@^2.0.0-alpha.16:
+laxar@2.0.0-rc.3, laxar@^2.0.0-rc.2:
+  version "2.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/laxar/-/laxar-2.0.0-rc.3.tgz#39d3388b4cfd0a432a11f58c858071b150f4a688"
+  dependencies:
+    navigo "4.3.6"
+
+laxar@^2.0.0-alpha.16:
   version "2.0.0-alpha.17"
   resolved "https://registry.yarnpkg.com/laxar/-/laxar-2.0.0-alpha.17.tgz#35ebe419ab0cfdff27b4b0018d7fbe618ce91bf2"
   dependencies:
@@ -2937,6 +2942,10 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
+navigo@4.3.6:
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/navigo/-/navigo-4.3.6.tgz#064f3167933e03b1b42a225d19f21606c24ab5e3"
+
 ncname@1.0.x:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ncname/-/ncname-1.0.0.tgz#5b57ad18b1ca092864ef62b0b1ed8194f383b71c"
@@ -3144,7 +3153,7 @@ os-tmpdir@^1.0.1, os-tmpdir@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
 
-page@^1.7.1, page@~1.7.1:
+page@~1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/page/-/page-1.7.1.tgz#3886c147b895487783759b37e800a11213bc38ed"
   dependencies:

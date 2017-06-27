@@ -8,7 +8,7 @@ import * as ax from 'laxar';
 import 'angular';
 import 'angular-mocks';
 
-describe( 'An ax-media-widget ', () => {
+describe( 'A laxar-media-widget ', () => {
 
    let widgetScope;
    let testEventBus;
