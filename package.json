@@ -36,8 +36,8 @@
     "laxar-uikit": "2.0.0-rc.1",
     "laxar-angular-adapter": "2.0.0-rc.1",
     "laxar-infrastructure": "2.0.0-rc.1",
-    "laxar-loader": "^2.0.0-alpha.0",
-    "laxar-mocks": "^2.0.0-beta.2",
+    "laxar-loader": "2.0.0-rc.3",
+    "laxar-mocks": "2.0.0-rc.2",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
   },
