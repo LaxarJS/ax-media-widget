@@ -2,7 +2,7 @@
 
 ## Last Changes
 
-
+## v3.0.0
 ## v3.0.0-rc.0
 
 - [#15](https://github.com/LaxarJS/laxar-media-widget/issues/15): renamed repository to match artifact
