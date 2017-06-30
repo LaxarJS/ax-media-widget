@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v3.0.1
+
 - [#16](https://github.com/LaxarJS/laxar-media-widget/issues/16): fixed version number in package.json 
 
 

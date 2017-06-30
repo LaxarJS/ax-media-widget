@@ -1,6 +1,6 @@
 {
   "name": "laxar-media-widget",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Displays an image or an external website.",
   "homepage": "http://laxarjs.org",
   "main": "laxar-media-widget.js",
